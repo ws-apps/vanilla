@@ -39,3 +39,4 @@ script:
   - ./vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover=coverage.clover
   - cat /tmp/error.log
   - cat /tmp/access.log
+  - cat /var/log/hhvm/error.log
