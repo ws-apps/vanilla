@@ -58,4 +58,21 @@ class ArrayFunctionsTest extends \PHPUnit_Framework_TestCase {
 
         $v = ['foo' => 'bar'] + $a2;
     }
+
+    /**
+     * This is an odd error happening in hhvm.
+     */
+    public function testHHvmError() {
+        $thisContext = [];
+
+        $context = array_filter($thisContext, function ($key) {
+            return !(strpos($key, 'HTTP_') === 0);
+        }, ARRAY_FILTER_USE_KEY);
+
+        $result = [
+                'message' => 'foo',
+                'status' => 'bar'
+            ] + $context;
+
+    }
 }
