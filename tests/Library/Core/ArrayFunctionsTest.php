@@ -38,4 +38,14 @@ class ArrayFunctionsTest extends \PHPUnit_Framework_TestCase {
 
         return $r;
     }
+
+    /**
+     * Test array addition.
+     */
+    public function testArrayAddition() {
+        $a1 = ['foo' => 'bar'];
+        $a2 = ['bar' => 'foo'];
+
+        $v = $a1 + $a2;
+    }
 }
