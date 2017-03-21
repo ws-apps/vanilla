@@ -48,4 +48,14 @@ class ArrayFunctionsTest extends \PHPUnit_Framework_TestCase {
 
         $v = $a1 + $a2;
     }
+
+    /**
+     * Test array addition with a literal.
+     */
+    public function testArrayAdditionLiteral() {
+        $a1 = ['foo' => 'bar'];
+        $a2 = ['bar' => 'foo'];
+
+        $v = ['foo' => 'bar'] + $a2;
+    }
 }
