@@ -1356,7 +1356,7 @@ class SettingsController extends DashboardController {
             if ($this->Form->save() !== false) {
                 $this->informMessage(t("Your settings have been saved."));
                 if ($RedirectUrl != '') {
-                    $this->RedirectUrl = $RedirectUrl;
+                    $this->redirectTo($RedirectUrl, false);
                 }
             }
         }

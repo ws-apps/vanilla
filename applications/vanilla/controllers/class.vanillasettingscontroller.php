@@ -531,7 +531,7 @@ class VanillaSettingsController extends Gdn_Controller {
                     }
 
                     if ($this->Form->errorCount() == 0) {
-                        $this->RedirectUrl = url('vanilla/settings/categories');
+                        $this->redirectTo('vanilla/settings/categories', false);
                         $this->informMessage(t('Deleting category...'));
                     }
                 }
@@ -935,7 +935,7 @@ class VanillaSettingsController extends Gdn_Controller {
             $this->setData('Enabled', $enabled);
 
             if ($this->deliveryType() !== DELIVERY_TYPE_DATA) {
-                $this->RedirectUrl = url('/vanilla/settings/categories');
+                $this->redirectTo('/vanilla/settings/categories', false);
             }
         } else {
             throw forbiddenException('GET');
