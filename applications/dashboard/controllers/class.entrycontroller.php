@@ -254,9 +254,9 @@ class EntryController extends Gdn_Controller {
                     $this->setRedirectTo($Route, false);
                 } else {
                     if ($Route !== false) {
-                        redirectTo($Route, 302, false);
+                        redirectTo($Route);
                     } else {
-                        redirectTo(Gdn::router()->getDestination('DefaultController'), 302, false);
+                        redirectTo(Gdn::router()->getDestination('DefaultController'));
                     }
                 }
                 break;
@@ -1150,9 +1150,9 @@ class EntryController extends Gdn_Controller {
                     /// ... and redirect them appropriately
                     $Route = $this->getTargetRoute();
                     if ($Route !== false) {
-                        redirectTo($Route, 302, false);
+                        redirectTo($Route);
                     } else {
-                        redirectTo('/', 302, false);
+                        redirectTo('/');
                     }
 
                 } else {
@@ -1278,7 +1278,7 @@ class EntryController extends Gdn_Controller {
                 /// ... and redirect them appropriately
                 $Route = $this->getTargetRoute();
                 if ($Route !== false) {
-                    redirectTo($Route, 302, false);
+                    redirectTo($Route);
                 }
             } else {
                 // Add the hidden inputs back into the form.
@@ -1292,7 +1292,7 @@ class EntryController extends Gdn_Controller {
             $Id = Gdn::authenticator()->getIdentity(true);
             if ($Id > 0) {
                 // The user is signed in so we can just go back to the homepage.
-                redirectTo($Target, 302, false);
+                redirectTo($Target);
             }
 
             $Name = $UserInfo['UserName'];
@@ -1951,9 +1951,9 @@ class EntryController extends Gdn_Controller {
                     $this->setRedirectTo($Route, false);
                 } else {
                     if ($Route !== false) {
-                        redirectTo($Route, 302, false);
+                        redirectTo($Route);
                     } else {
-                        redirectTo(Gdn::router()->getDestination('DefaultController'), 302, false);
+                        redirectTo(Gdn::router()->getDestination('DefaultController'));
                     }
                 }
                 break;

@@ -165,7 +165,7 @@ class VanillaSettingsController extends Gdn_Controller {
      * @access public
      */
     public function index() {
-        redirectTo('/vanilla/settings/categories', 302, false);
+        redirectTo('/vanilla/settings/categories');
     }
 
     /**
@@ -375,7 +375,7 @@ class VanillaSettingsController extends Gdn_Controller {
                 $this->setData('Category', $Category);
 
                 if ($this->deliveryType() == DELIVERY_TYPE_ALL) {
-                    redirectTo('vanilla/settings/categories', 302, false);
+                    redirectTo('vanilla/settings/categories');
                 } elseif ($this->deliveryType() === DELIVERY_TYPE_DATA && method_exists($this, 'getCategory')) {
                     $this->Data = [];
                     $this->getCategory($CategoryID);
@@ -679,7 +679,7 @@ class VanillaSettingsController extends Gdn_Controller {
 
                 if ($this->deliveryType() == DELIVERY_TYPE_ALL) {
                     $destination = $this->categoryPageByParent($parentCategory);
-                    redirectTo($destination, 302, false);
+                    redirectTo($destination);
                 } elseif ($this->deliveryType() === DELIVERY_TYPE_DATA && method_exists($this, 'getCategory')) {
                     $this->Data = [];
                     $this->getCategory($CategoryID);

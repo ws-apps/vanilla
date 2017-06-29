@@ -219,7 +219,7 @@ class ModerationController extends VanillaController {
             Gdn::userModel()->saveAttribute($Session->UserID, 'CheckedComments', $CheckedComments);
         }
 
-        redirectTo(GetIncomingValue('Target', '/discussions'), 302, false);
+        redirectTo(GetIncomingValue('Target', '/discussions'));
     }
 
     /**
@@ -231,7 +231,7 @@ class ModerationController extends VanillaController {
             Gdn::userModel()->saveAttribute($Session->UserID, 'CheckedDiscussions', false);
         }
 
-        redirectTo(GetIncomingValue('Target', '/discussions'), 302, false);
+        redirectTo(GetIncomingValue('Target', '/discussions'));
     }
 
     /**
