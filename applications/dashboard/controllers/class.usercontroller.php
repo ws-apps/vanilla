@@ -208,7 +208,7 @@ class UserController extends DashboardController {
 
                     $UserModel->sendWelcomeEmail($NewUserID, $password, 'Add');
                     $this->informMessage(t('The user has been created successfully'));
-                    $this->setRedirectTo('dashboard/user', false);
+                    $this->setRedirectTo('dashboard/user');
                 } elseif ($noPassword) {
                     $this->Form->setFormValue('Password', '');
                     $this->Form->setFormValue('HashMethod', '');
@@ -411,9 +411,9 @@ class UserController extends DashboardController {
             if ($this->Form->errorCount() == 0) {
                 // Redirect after a successful save.
                 if ($this->Request->get('Target')) {
-                    $this->setRedirectTo($this->Request->get('Target'), false);
+                    $this->setRedirectTo($this->Request->get('Target'));
                 } elseif ($this->deliveryType() == DELIVERY_TYPE_ALL) {
-                    $this->setRedirectTo(userUrl($User), false);
+                    $this->setRedirectTo(userUrl($User));
                 } else {
                     $this->jsonTarget('', '', 'Refresh');
                 }
@@ -518,7 +518,7 @@ class UserController extends DashboardController {
             $this->Method = $Method;
             if ($Method != '') {
                 $this->View = 'deleteconfirm';
-                $this->setRedirectTo('/dashboard/user', false);
+                $this->setRedirectTo('/dashboard/user');
             }
 
             if ($this->Form->authenticatedPostBack(true) && $Method != '') {
@@ -584,9 +584,9 @@ class UserController extends DashboardController {
             Gdn::userModel()->deleteContent($UserID, array('Log' => true));
 
             if ($this->Request->get('Target')) {
-                $this->setRedirectTo($this->Request->get('Target'), false);
+                $this->setRedirectTo($this->Request->get('Target'));
             } else {
-                $this->setRedirectTo(userUrl($User), false);
+                $this->setRedirectTo(userUrl($User));
             }
         } else {
             $this->setData('Title', t('Are you sure you want to do this?'));
