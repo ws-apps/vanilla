@@ -961,7 +961,8 @@ class Gdn_Request {
         }
         static $rewrite = null;
         if ($rewrite === null) {
-            $rewrite = val('X_REWRITE', $_SERVER, c('Garden.RewriteUrls', true));
+            // Garden.RewriteUrls is maintained for compatibility but X_REWRITE is what really need to be used.
+            $rewrite = val('X_REWRITE', $_SERVER, c('Garden.RewriteUrls', false));
         }
 
         if (!$allowSSL) {
