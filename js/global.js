@@ -775,26 +775,41 @@ jQuery(document).ready(function($) {
     };
     $(document).delegate('.Hijack, .js-hijack', 'click', hijackClick);
 
-
-    // Activate ToggleFlyout and ButtonGroup menus
-    $(document).delegate('.ButtonGroup > .Handle', 'click', function() {
-        var $buttonGroup = $(this).closest('.ButtonGroup');
+    function toggleButtonGroup (el) {
+        var $buttonGroup = $(el).closest('.ButtonGroup');
         if (!$buttonGroup.hasClass('Open')) {
             $('.ButtonGroup')
                 .removeClass('Open')
                 .setFlyoutAttributes();
-            
-            // Open this one
-            $buttonGroup
-                .addClass('Open')
-                .setFlyoutAttributes();
+
+            setTimeout(function(){
+                // Open this one
+                $buttonGroup
+                    .addClass('Open')
+                    .setFlyoutAttributes();
+            }, 0);
         } else {
             $('.ButtonGroup')
                 .removeClass('Open')
                 .setFlyoutAttributes();
         }
         return false;
+    }
+
+    // Activate ToggleFlyout and ButtonGroup menus
+    $(document).delegate('.ButtonGroup > .Handle', 'click', function(e) {
+        toggleButtonGroup(this);
     });
+
+    // Activate ToggleFlyout and ButtonGroup menus
+    $(document).delegate('.ButtonGroup > .Handle', 'keypress', function(e) {
+        var el = this;
+        var key = (e.keyCode ? e.keyCode : e.which);
+        if (key == '13') {
+            toggleButtonGroup(el);
+        }
+    });
+
 
     var lastOpen = null;
 
