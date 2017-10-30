@@ -5,6 +5,12 @@ $trigger = $dropdown->getTrigger();
 ?>
 
 <div class="ButtonGroup <?php echo $dropdown->getCssClass(); ?>">
+    <a href="#" class="NavButton Handle <?php echo val('cssClass', $trigger); ?>">
+        <span><?php echo val('text', $trigger); ?></span>
+        <?php if (val('icon', $trigger)) {
+            echo icon(val('icon', $trigger));
+        } ?>
+    </a>
     <ul class="Dropdown MenuItems">
         <?php foreach ($dropdown->getItems() as $item) {
             if (val('type', $item) == 'group') { ?>
@@ -30,10 +36,4 @@ $trigger = $dropdown->getTrigger();
             <?php }
         } ?>
     </ul>
-    <a href="#" class="NavButton Handle <?php echo val('cssClass', $trigger); ?>">
-        <span><?php echo val('text', $trigger); ?></span>
-        <?php if (val('icon', $trigger)) {
-            echo icon(val('icon', $trigger));
-        } ?>
-    </a>
 </div>

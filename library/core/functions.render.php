@@ -271,13 +271,14 @@ if (!function_exists('buttonDropDown')) {
             // Strip "Button" or "NavButton" off the group class.
             echo '<div class="ButtonGroup'.str_replace(['NavButton', 'Button'], ['', ''], $cssClass).'">';
 
+            echo anchor($label.' '.sprite('SpDropdownHandle'), '#', $buttonClass.' Handle');
+
             echo '<ul class="Dropdown MenuItems">';
             foreach ($links as $link) {
                 echo wrap(anchor($link['Text'], $link['Url'], val('CssClass', $link, '')), 'li');
             }
             echo '</ul>';
 
-            echo anchor($label.' '.sprite('SpDropdownHandle'), '#', $buttonClass.' Handle');
             echo '</div>';
         }
     }
@@ -339,13 +340,14 @@ if (!function_exists('buttonGroup')) {
             // Strip "Button" or "NavButton" off the group class.
             echo '<div class="ButtonGroup Multi '.str_replace(['NavButton', 'Button'], ['', ''], $cssClass).'">';
             echo anchor($text, $url, $buttonClass);
+            
+            echo anchor(sprite('SpDropdownHandle', 'Sprite', t('Expand for more options.')), '#', $buttonClass.' Handle');
 
             echo '<ul class="Dropdown MenuItems">';
             foreach ($links as $link) {
                 echo wrap(anchor($link['Text'], $link['Url'], val('CssClass', $link, '')), 'li');
             }
             echo '</ul>';
-            echo anchor(sprite('SpDropdownHandle', 'Sprite', t('Expand for more options.')), '#', $buttonClass.' Handle');
 
             echo '</div>';
         }
