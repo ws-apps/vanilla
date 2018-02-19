@@ -51,12 +51,12 @@
         {* Paragraph level menu goes here *}
     </div>
 
-    {*<button type="button" class="test-sagan">*}
-        {*Saganify!*}
-    {*</button><br/>*}
-    {*<button type="button" class="test-spoiler">*}
-        {*Spoiler*}
-    {*</button><br/>*}
+    <button type="button" class="test-sagan">
+        Saganify!
+    </button><br/>
+    <button type="button" class="test-spoiler">
+        Spoiler
+    </button><br/>
     {*<button type="button" class="test-blockparagraph">*}
         {*Code Block - Paragraph*}
     {*</button><br/>*}
