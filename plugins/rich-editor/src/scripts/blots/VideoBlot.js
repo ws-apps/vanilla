@@ -55,7 +55,7 @@ export default class VideoBlot extends BlockEmbed {
                 <title>${t("Play Video")}</title>
                 <path class="embedVideo-playIconPath embedVideo-playIconPath-circle" style="fill: currentColor; stroke-width: .3;" d="M11,0A11,11,0,1,0,22,11,11,11,0,0,0,11,0Zm0,20.308A9.308,9.308,0,1,1,20.308,11,9.308,9.308,0,0,1,11,20.308Z"/>
                 <polygon class="embedVideo-playIconPath embedVideo-playIconPath-triangle" style="fill: currentColor; stroke-width: .3;" points="8.609 6.696 8.609 15.304 16.261 11 8.609 6.696"/>
-                </svg>
+            </svg>
         </button>`;
 
         node.appendChild(ratioContainer);
