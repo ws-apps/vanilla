@@ -8,8 +8,11 @@
 namespace Vanilla\VanillaConnect;
 
 use Exception;
+use Garden\Web\Cookie;
 use Garden\Web\RequestInterface;
 use Gdn_AuthenticationProviderModel;
+use Gdn_Configuration;
+use Firebase\JWT\JWT;
 use UserAuthenticationNonceModel;
 use Vanilla\Authenticator\SSOAuthenticator;
 use Vanilla\Models\SSOData;
@@ -21,24 +24,25 @@ use Vanilla\Models\SSOData;
  */
 class VanillaConnectAuthenticator extends SSOAuthenticator {
 
-    /**
-     * @var RequestInterface
-     */
+    /** Signing algorithm for JWT tokens. */
+    const JWT_ALGORITHM = 'HS256';
+
+    /** @var Cookie $cookie */
+    private $cookie;
+
+    /** @var string */
+    private $cookieName;
+
+    /** @var RequestInterface */
     private $request;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     private $providerData;
 
-    /**
-     * @var VanillaConnect
-     */
+    /** @var VanillaConnect */
     private $vanillaConnect;
 
-    /**
-     * @var UserAuthenticationNonceModel
-     */
+    /** @var UserAuthenticationNonceModel */
     private $nonceModel;
 
     /**
@@ -48,12 +52,16 @@ class VanillaConnectAuthenticator extends SSOAuthenticator {
      *
      * @param string $providerID
      * @param Gdn_AuthenticationProviderModel $authProviderModel
+     * @param Gdn_Configuration $config
+     * @param Cookie $cookie
      * @param RequestInterface $request
      * @param UserAuthenticationNonceModel $nonceModel
      */
     public function __construct(
         $providerID,
         Gdn_AuthenticationProviderModel $authProviderModel,
+        Gdn_Configuration $config,
+        Cookie $cookie,
         RequestInterface $request,
         UserAuthenticationNonceModel $nonceModel
     ) {
@@ -62,6 +70,14 @@ class VanillaConnectAuthenticator extends SSOAuthenticator {
         }
 
         parent::__construct($providerID);
+
+        $this->cookie = $cookie;
+        $this->cookieName = $config->get('Garden.Cookie.Name', 'Vanilla').'-vanillaconnectnonce';
+        $this->cookieSalt = $config->get('Garden.Cookie.Salt');
+
+        if (!$this->cookieSalt) {
+            throw new Gdn_UserException('Cookie salt is empty.');
+        }
 
         $this->nonceModel = $nonceModel;
         $this->request = $request;
@@ -128,6 +144,17 @@ class VanillaConnectAuthenticator extends SSOAuthenticator {
     private function generateNonce() {
         $nonce = uniqid(VanillaConnect::NAME.'_');
         $this->nonceModel->insert(['Nonce' => $nonce, 'Token' => VanillaConnect::NAME]);
+
+        $iat = time();
+        $expiration = $iat + VanillaConnect::TIMEOUT;
+
+        $jwt = JWT::encode([
+            'nonce' => $nonce,
+            'exp' => $expiration,
+            'iat' => $iat,
+        ], $this->cookieSalt, self::JWT_ALGORITHM);
+        $this->cookie->set($this->cookieName, $jwt, VanillaConnect::TIMEOUT);
+
         return $nonce;
     }
 
@@ -230,7 +257,6 @@ class VanillaConnectAuthenticator extends SSOAuthenticator {
      * @throws Exception
      *
      * @param string $nonce
-     * @return bool
      */
     private function validateNonce($nonce) {
         $nonceData = $this->nonceModel->getWhere(['Nonce' => $nonce])->firstRow(DATASET_TYPE_ARRAY);
@@ -239,6 +265,18 @@ class VanillaConnectAuthenticator extends SSOAuthenticator {
         }
         if (strtotime($nonceData['Timestamp']) < time() - VanillaConnect::TIMEOUT) {
             throw new Exception('The nonce has expired.');
+        }
+
+        $jwt = $this->cookie->get($this->cookieName);
+        if ($jwt) {
+            try {
+                $decoded = (array)JWT::decode($jwt, $this->cookieSalt, [self::JWT_ALGORITHM]);
+                $cookiedNonce = $decoded['nonce'] ?? null;
+            } catch (Exception $e) {}
+        }
+
+        if (!$cookiedNonce || $cookiedNonce !== $nonce) {
+            throw new Exception('Nonce does not match cookied value.');
         }
     }
 
