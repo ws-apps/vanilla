@@ -37,7 +37,7 @@ class Gdn_Format {
 
     /** @var array  */
     protected static $SanitizedFormats = [
-        'html', 'bbcode', 'wysiwyg', 'text', 'textex', 'markdown'
+        'html', 'bbcode', 'wysiwyg', 'text', 'textex', 'markdown', 'rich'
     ];
 
     /**
@@ -2446,5 +2446,21 @@ EOT;
 
             return $sanitized;
         }
+    }
+
+    /**
+     * Format text from Rich editor input.
+     *
+     * @param $mixed
+     * @return mixed|string
+     */
+    public static function rich($mixed) {
+        $operations = json_decode($mixed, true);
+        $renderer = new Vanilla\Quill\Renderer($operations);
+        return $renderer->render();
+        // Always filter after basic parsing.
+        // Wysiwyg editors are already formatted HTML. Don't try to doubly encode its code blocks.
+//        $filterOptions = ['codeBlockEntities' => false];
+//        return Gdn_Format::htmlFilter($mixed, $filterOptions);
     }
 }
